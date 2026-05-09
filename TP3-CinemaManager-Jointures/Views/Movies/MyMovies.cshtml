@@ -1,0 +1,15 @@
+@model IEnumerable<CinemaManager.Models.Cinema.ProdMovie>
+@{ ViewData["Title"] = "Mes Films"; }
+<h1>Films du producteur : @Model.FirstOrDefault()?.pName</h1>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr><th>Titre</th><th>Genre</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.mTitle</td><td>@item.mGenre</td></tr>
+    }
+    </tbody>
+</table>
+<a asp-controller="Producers" asp-action="ProdsAndTheirMovies" class="btn btn-secondary">Retour</a>

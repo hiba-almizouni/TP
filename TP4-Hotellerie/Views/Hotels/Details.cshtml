@@ -1,0 +1,110 @@
+@model Hotel
+
+@{
+    ViewData["Title"] = "Détails de l'Hôtel";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <i class="bi bi-building me-2"></i>Détails de l'Hôtel
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-muted">Nom</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.Nom</dd>
+
+                    <dt class="col-sm-4 text-muted">Étoiles</dt>
+                    <dd class="col-sm-8">
+                        @for (int i = 0; i < Model.Etoiles; i++)
+                        {
+                            <i class="bi bi-star-fill star-gold"></i>
+                        }
+                        @for (int i = Model.Etoiles; i < 5; i++)
+                        {
+                            <i class="bi bi-star text-secondary"></i>
+                        }
+                        <span class="text-muted ms-1">(@Model.Etoiles/5)</span>
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Ville</dt>
+                    <dd class="col-sm-8">@Model.Ville</dd>
+
+                    <dt class="col-sm-4 text-muted">Site Web</dt>
+                    <dd class="col-sm-8">
+                        <a href="@Model.SiteWeb" target="_blank">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>@Model.SiteWeb
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Téléphone</dt>
+                    <dd class="col-sm-8">@(Model.Tel ?? "—")</dd>
+
+                    <dt class="col-sm-4 text-muted">Pays</dt>
+                    <dd class="col-sm-8">@(Model.Pays ?? "Tunisie")</dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                    <i class="bi bi-pencil me-1"></i>Modifier
+                </a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i>Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-chat-quote me-2"></i>Appréciations des clients</span>
+                <a asp-controller="Appreciations" asp-action="Create" class="btn btn-sm btn-light">
+                    <i class="bi bi-plus me-1"></i>Ajouter
+                </a>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Appreciations == null || !Model.Appreciations.Any())
+                {
+                    <div class="p-3 text-muted">
+                        <i class="bi bi-info-circle me-1"></i>Aucune appréciation pour cet hôtel.
+                    </div>
+                }
+                else
+                {
+                    <table class="table table-hover table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Commentaire</th>
+                                <th class="text-center">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appr in Model.Appreciations)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@appr.NomPers</td>
+                                    <td>
+                                        <span title="@appr.Commentaire">
+                                            @(appr.Commentaire.Length > 50
+                                                ? appr.Commentaire.Substring(0, 50) + "..."
+                                                : appr.Commentaire)
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success fs-6">@appr.Note/10</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="p-2 text-end text-muted">
+                        <small>@Model.Appreciations.Count appréciation(s)</small>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

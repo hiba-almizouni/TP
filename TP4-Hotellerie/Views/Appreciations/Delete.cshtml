@@ -1,0 +1,49 @@
+@model Appreciation
+
+@{
+    ViewData["Title"] = "Supprimer une Appréciation";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmer la suppression
+            </div>
+            <div class="card-body">
+                <p class="text-danger fw-semibold mb-3">
+                    Êtes-vous sûr de vouloir supprimer cette appréciation ? Cette action est irréversible.
+                </p>
+
+                <dl class="row">
+                    <dt class="col-sm-4 text-muted">Nom Client</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.NomPers</dd>
+
+                    <dt class="col-sm-4 text-muted">Hôtel</dt>
+                    <dd class="col-sm-8">@Model.Hotel?.Nom</dd>
+
+                    <dt class="col-sm-4 text-muted">Commentaire</dt>
+                    <dd class="col-sm-8">
+                        @(Model.Commentaire.Length > 80
+                            ? Model.Commentaire.Substring(0, 80) + "..."
+                            : Model.Commentaire)
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Note</dt>
+                    <dd class="col-sm-8"><span class="badge bg-secondary">@Model.Note/10</span></dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Oui, supprimer
+                    </button>
+                </form>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Annuler
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

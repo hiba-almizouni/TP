@@ -1,0 +1,84 @@
+@model IEnumerable<Appreciation>
+
+@{
+    ViewData["Title"] = "Liste des Appréciations";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><i class="bi bi-star me-2 text-warning"></i>Liste des Appréciations</h2>
+    <div>
+        <a asp-action="Create" class="btn btn-success me-2">
+            <i class="bi bi-plus-circle me-1"></i>Ajouter une Appréciation
+        </a>
+        <a asp-controller="Hotels" asp-action="Index" class="btn btn-outline-primary">
+            <i class="bi bi-building me-1"></i>Retour aux Hôtels
+        </a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>Aucune appréciation enregistrée.
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-person me-1"></i>Nom Client</th>
+                        <th><i class="bi bi-building me-1"></i>Hôtel</th>
+                        <th><i class="bi bi-chat-text me-1"></i>Commentaire</th>
+                        <th class="text-center"><i class="bi bi-star-fill me-1"></i>Note</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appr in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@appr.NomPers</td>
+                            <td>
+                                <a asp-controller="Hotels" asp-action="Details"
+                                   asp-route-id="@appr.HotelId" class="text-decoration-none">
+                                    <i class="bi bi-building me-1"></i>@appr.Hotel?.Nom
+                                </a>
+                            </td>
+                            <td>
+                                @(appr.Commentaire.Length > 60
+                                    ? appr.Commentaire.Substring(0, 60) + "..."
+                                    : appr.Commentaire)
+                            </td>
+                            <td class="text-center">
+                                @{
+                                    string badgeClass = appr.Note >= 8 ? "bg-success"
+                                                      : appr.Note >= 5 ? "bg-warning text-dark"
+                                                      : "bg-danger";
+                                }
+                                <span class="badge @badgeClass fs-6">@appr.Note/10</span>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@appr.Id"
+                                   class="btn btn-sm btn-info text-white btn-action" title="Détails">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@appr.Id"
+                                   class="btn btn-sm btn-warning btn-action" title="Modifier">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@appr.Id"
+                                   class="btn btn-sm btn-danger btn-action" title="Supprimer">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="text-muted mt-2"><small>Total : @Model.Count() appréciation(s)</small></p>
+}

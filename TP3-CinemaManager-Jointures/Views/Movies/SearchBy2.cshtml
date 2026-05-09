@@ -1,0 +1,25 @@
+@model IEnumerable<CinemaManager.Models.Cinema.Movie>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{ ViewData["Title"] = "Recherche avancée"; }
+<h1>Recherche par Genre et Titre</h1>
+@using (Html.BeginForm("SearchBy2", "Movies", FormMethod.Get))
+{
+    <div class="row mb-3 align-items-center">
+        <div class="col-auto"><label class="col-form-label">Genre :</label></div>
+        <div class="col-auto">@Html.DropDownList("genre", (SelectList)ViewBag.Genres, new { @class = "form-select" })</div>
+        <div class="col-auto"><label class="col-form-label">Title :</label></div>
+        <div class="col-auto">@Html.TextBox("title", null, new { @class = "form-control" })</div>
+        <div class="col-auto"><input type="submit" value="Find" class="btn btn-primary" /></div>
+    </div>
+}
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr><th>Titre</th><th>Genre</th><th>Producteur</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.Title</td><td>@item.Genre</td><td>@item.Producer?.Name</td></tr>
+    }
+    </tbody>
+</table>

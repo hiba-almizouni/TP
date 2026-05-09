@@ -1,0 +1,52 @@
+@model Appreciation
+
+@{
+    ViewData["Title"] = "Détails de l'Appréciation";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <i class="bi bi-chat-quote me-2"></i>Détails de l'Appréciation
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4 text-muted">Nom Client</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.NomPers</dd>
+
+                    <dt class="col-sm-4 text-muted">Hôtel</dt>
+                    <dd class="col-sm-8">
+                        <a asp-controller="Hotels" asp-action="Details"
+                           asp-route-id="@Model.HotelId" class="text-decoration-none">
+                            <i class="bi bi-building me-1"></i>@Model.Hotel?.Nom
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Commentaire</dt>
+                    <dd class="col-sm-8">
+                        <div class="p-2 bg-light rounded border">@Model.Commentaire</div>
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Note</dt>
+                    <dd class="col-sm-8">
+                        @{
+                            string badgeClass = Model.Note >= 8 ? "bg-success"
+                                              : Model.Note >= 5 ? "bg-warning text-dark"
+                                              : "bg-danger";
+                        }
+                        <span class="badge @badgeClass fs-5">@Model.Note / 10</span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                    <i class="bi bi-pencil me-1"></i>Modifier
+                </a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i>Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

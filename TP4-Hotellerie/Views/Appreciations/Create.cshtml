@@ -1,0 +1,61 @@
+@model Appreciation
+
+@{
+    ViewData["Title"] = "Ajouter une Appréciation";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <i class="bi bi-chat-quote me-2"></i>Ajouter une Appréciation
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="NomPers" class="form-label fw-semibold"></label>
+                        <input asp-for="NomPers" class="form-control" placeholder="Votre nom complet" />
+                        <span asp-validation-for="NomPers" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="HotelId" class="form-label fw-semibold">Hôtel</label>
+                        <select asp-for="HotelId" asp-items="ViewBag.HotelId" class="form-select">
+                            <option value="">-- Sélectionner un hôtel --</option>
+                        </select>
+                        <span asp-validation-for="HotelId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Commentaire" class="form-label fw-semibold"></label>
+                        <textarea asp-for="Commentaire" class="form-control" rows="4"
+                                  placeholder="Partagez votre expérience..."></textarea>
+                        <span asp-validation-for="Commentaire" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Note" class="form-label fw-semibold">Note (1 à 10)</label>
+                        <input asp-for="Note" class="form-control" type="number" min="1" max="10" />
+                        <span asp-validation-for="Note" class="text-danger small"></span>
+                        <div class="form-text">1 = Très mauvais, 10 = Excellent</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle me-1"></i>Enregistrer
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

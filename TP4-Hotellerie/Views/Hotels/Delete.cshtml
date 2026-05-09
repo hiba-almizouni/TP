@@ -1,0 +1,56 @@
+@model Hotel
+
+@{
+    ViewData["Title"] = "Supprimer un Hôtel";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmer la suppression
+            </div>
+            <div class="card-body">
+                <p class="mb-3 text-danger fw-semibold">
+                    Êtes-vous sûr de vouloir supprimer cet hôtel ? Cette action est irréversible.
+                </p>
+
+                <dl class="row">
+                    <dt class="col-sm-4 text-muted">Nom</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.Nom</dd>
+
+                    <dt class="col-sm-4 text-muted">Étoiles</dt>
+                    <dd class="col-sm-8">@Model.Etoiles ★</dd>
+
+                    <dt class="col-sm-4 text-muted">Ville</dt>
+                    <dd class="col-sm-8">@Model.Ville</dd>
+
+                    <dt class="col-sm-4 text-muted">Site Web</dt>
+                    <dd class="col-sm-8">@Model.SiteWeb</dd>
+
+                    <dt class="col-sm-4 text-muted">Téléphone</dt>
+                    <dd class="col-sm-8">@(Model.Tel ?? "—")</dd>
+
+                    <dt class="col-sm-4 text-muted">Pays</dt>
+                    <dd class="col-sm-8">@(Model.Pays ?? "Tunisie")</dd>
+                </dl>
+
+                <div class="alert alert-warning mt-2">
+                    <i class="bi bi-exclamation-circle me-1"></i>
+                    Toutes les appréciations liées à cet hôtel seront également supprimées.
+                </div>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Oui, supprimer
+                    </button>
+                </form>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Annuler
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
